@@ -52,7 +52,7 @@ sync = False
 epoch = 0
 
 while not sync:
-    X = np.random.randint(l, k, n)
+    X = random_number_generator(l, k, n)
 
     output1 = tpm1.output(X)
     output2 = tpm2.output(X)
@@ -64,19 +64,19 @@ while not sync:
     if output1 == output2 == evil_output:
         evil_tpm.update(output1, update_rule)
 
-    score = score(tpm1, tpm2)
+    score_tpm = score(tpm1, tpm2)
     epoch += 1
 
     if verbose:
-        print('Score: {}'.format(score))
+        print('Score: {}'.format(score_tpm))
         print('Epoch: {}'.format(epoch))
 
-    if score == 100:
+    if score_tpm == 100:
         sync = True
 
 if verbose:
     print('TPM1 and TPM2 have synchronized after {} epochs'.format(epoch))
-    print('Final score: {}'.format(score))
+    print('Final score: {}'.format(score_tpm))
 
 evil_score = score(tpm1, evil_tpm)
 

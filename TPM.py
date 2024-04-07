@@ -30,8 +30,10 @@ class TPM (object):
         Parameters:
             X = input (1 x n)
         '''
+
+        X = X.reshape((self.k, self.n))
         
-        sigma = np.sign(np.dot(X, self.W.T))
+        sigma = np.sign(np.sum(X * self.W, axis=1))
         tau = np.prod(sigma) # output of the TPM
 
         self.input = X
@@ -52,15 +54,14 @@ class TPM (object):
 
         output1 = self.tau
 
-        calls = {
-            'hebbian': hebbian(self.W, self.input, self.sigma, output1, output2, self.l),
-            'anti_hebbian': anti_hebbian(self.W, self.input, self.sigma, output1, output2, self.l),
-            'random_walk': random_walk(self.W, self.input, self.sigma, output1, output2, self.l)
-        }
-
         if output1 == output2:
-            if learning_rule not in calls:
+            if learning_rule == 'hebbian':
+                hebbian(self.W, self.input, self.sigma, output1, output2, self.l)
+            elif learning_rule == 'anti_hebbian':
+                anti_hebbian(self.W, self.input, self.sigma, output1, output2, self.l)
+            elif learning_rule == 'random_walk':
+                random_walk(self.W, self.input, self.sigma, output1, output2, self.l)
+            else:
                 raise ValueError('Invalid learning rule')
-            calls[learning_rule]
         
         
