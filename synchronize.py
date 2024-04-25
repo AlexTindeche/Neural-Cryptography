@@ -76,6 +76,7 @@ while not sync:
 
 if verbose:
     print('TPM1 and TPM2 have synchronized after {} epochs'.format(epoch))
+
     print('Final score: {}'.format(score_tpm))
 
 evil_score = score(tpm1, evil_tpm)
@@ -85,3 +86,15 @@ if evil_score == 100:
 else:
     print("SECURE")
 
+print('\n\n--------------------------------------\n\n')
+print("Public key: {}".format(X))
+print('\n\n--------------------------------------\n\n')
+print("Private key: {}".format(tpm1.W))
+
+# Write the public key to a file
+with open('public_key.txt', 'w') as f:
+    f.write(str(X))
+
+# Write the private key to a file
+with open('private_key.txt', 'w') as f:
+    f.write(str(tpm1.W))
