@@ -98,3 +98,5 @@ with open('public_key.txt', 'w') as f:
 # Write the private key to a file
 with open('private_key.txt', 'w') as f:
     f.write(str(tpm1.W))
+
+print(tpm1.output(X))
